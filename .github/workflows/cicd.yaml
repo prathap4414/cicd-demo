@@ -8,16 +8,32 @@ on:
 jobs:
   build-image-react:
     runs-on: ubuntu-latest
+    environment: dev
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Added details to image
-        id: meta
         uses: docker/metadata-action@v5
+        id: meta
         with:
           images: ${{vars.DOCKER_USERNAME}}/${{secrets.IMAGE_NAME}}
           tags: |
             latest
             v1.0.${{github.run_number}}
-      - name: print docker image details
-        run: echo ${{steps.meta.outputs.image}}
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        id: login
+        with:
+          username: ${{vars.DOCKER_USERNAME}}
+          password: ${{secrets.DOCKER_PASSWORD}}
+      - name: Print image metadata
+        run: |
+          echo "docker username"
+          echo "${{steps.login.outputs.username}}"
+          echo "image name"
+          echo "${{steps.meta.outputs.images}}"
+          echo "tags"
+          echo "${{steps.meta.outputs.tags}}"
+
+        
+        
