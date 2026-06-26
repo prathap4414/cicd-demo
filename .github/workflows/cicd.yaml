@@ -22,16 +22,15 @@ jobs:
             v1.0.${{github.run_number}}
       - name: Log in to DockerHub
         uses: docker/login-action@v2
-        id: login
         with:
           username: ${{vars.DOCKER_USERNAME}}
           password: ${{secrets.DOCKER_PASSWORD}}
       - name: Print image metadata
         run: |
           echo "docker username"
-          echo "${{steps.login.outputs.username}}"
+          echo "${{vars.DOCKER_USERNAME}}"
           echo "image name"
-          echo "${{steps.meta.outputs.images}}"
+          echo "${{secrets.IMAGE_NAME}}"
           echo "tags"
           echo "${{steps.meta.outputs.tags}}"
 
