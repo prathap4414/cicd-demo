@@ -20,6 +20,8 @@ jobs:
           tags: |
             latest
             v1.0.${{github.run_number}}
+        run: |
+          echo "Image name: ${{vars.DOCKER_USERNAME}}/${{secrets.IMAGE_NAME}}"
       - name: Log in to DockerHub
         uses: docker/login-action@v2
         with:
