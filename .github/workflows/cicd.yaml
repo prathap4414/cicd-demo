@@ -1,0 +1,23 @@
+name : build html image and deploy to ec2
+on: 
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-image-react:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Added details to image
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{vars.DOCKER_USERNAME}}/${{secrets.IMAGE_NAME}}
+          tags: |
+            latest
+            v1.0.${{github.run_number}}
+      - name: print docker image details
+        run: echo ${{steps.meta.outputs.image}}
